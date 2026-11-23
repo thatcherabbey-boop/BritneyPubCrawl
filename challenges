@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#21102f">
+  <title>Britney’s 2000s Crawl</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #fff9ff;
+      --muted: #d7c6de;
+      --pink: #ff6db6;
+      --violet: #b695ff;
+      --panel: #321a43;
+      --line: #69477b;
+      --lime: #d9ff84;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 10% 5%, #622d66 0, transparent 38%),
+        radial-gradient(ellipse at 90% 30%, #373264 0, transparent 35%),
+        #21102f;
+      font-family: "Trebuchet MS", Arial, sans-serif;
+    }
+
+    button, input { font: inherit; }
+
+    .wrap {
+      width: min(940px, 100%);
+      padding: 28px 18px 48px;
+      margin: auto;
+    }
+
+    header { text-align: center; margin-bottom: 24px; }
+
+    .eyebrow {
+      color: var(--lime);
+      font-size: .76rem;
+      font-weight: 900;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 8px 0;
+      font-size: clamp(2rem, 8vw, 4.1rem);
+      line-height: .98;
+      text-transform: uppercase;
+      text-shadow: 3px 3px 0 #9e3d91;
+    }
+
+    .subtitle { color: var(--muted); margin: 12px auto 0; max-width: 560px; }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: color-mix(in srgb, var(--panel) 90%, transparent);
+      box-shadow: 0 18px 55px #10071980;
+    }
+
+    .game { padding: clamp(18px, 5vw, 32px); }
+
+    .progress-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .progress-track {
+      height: 10px;
+      margin: 12px 0 24px;
+      overflow: hidden;
+      border-radius: 99px;
+      background: #180d21;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--pink), var(--violet), var(--lime));
+      transition: width .3s ease;
+    }
+
+    .challenge {
+      min-height: 230px;
+      display: grid;
+      align-content: center;
+      padding: clamp(20px, 5vw, 36px);
+      border: 1px solid #ffffff26;
+      border-radius: 18px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 20% 20%, #ff6db61e, transparent 40%),
+        linear-gradient(135deg, #432552, #29183d);
+    }
+
+    .challenge-icon { font-size: 2rem; }
+    .challenge-tag {
+      margin-top: 12px;
+      color: var(--lime);
+      font-size: .73rem;
+      font-weight: 900;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    h2 { margin: 10px 0; font-size: clamp(1.45rem, 5vw, 2.2rem); }
+    .challenge p { max-width: 580px; margin: 0 auto; color: var(--muted); line-height: 1.55; }
+
+    .photo-area { margin-top: 18px; }
+    .photo-area img {
+      display: block;
+      width: min(100%, 300px);
+      max-height: 220px;
+      object-fit: cover;
+      margin: 12px auto 0;
+      border-radius: 14px;
+      border: 2px solid var(--pink);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      min-height: 46px;
+      padding: 11px 18px;
+      color: var(--ink);
+      font-weight: 800;
+      border: 1px solid #ffffff35;
+      border-radius: 12px;
+      background: #ffffff10;
+      cursor: pointer;
+      transition: transform .15s, background .15s;
+    }
+    .btn:hover { transform: translateY(-2px); background: #ffffff1c; }
+    .btn:focus-visible, .challenge-option:focus-visible {
+      outline: 3px solid var(--lime);
+      outline-offset: 3px;
+    }
+    .btn.primary { color: #28132f; border: 0; background: var(--pink); }
+    .btn.secondary { color: #261331; border: 0; background: var(--lime); }
+    .btn:disabled { opacity: .48; cursor: not-allowed; transform: none; }
+
+    .message {
+      min-height: 1.4em;
+      margin: 14px 0 0;
+      color: var(--lime);
+      text-align: center;
+      font-size: .92rem;
+    }
+
+    .list-panel { margin-top: 20px; padding: 22px; }
+    .list-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .list-heading h2 { margin: 0; font-size: 1.2rem; }
+    .list-heading span { color: var(--muted); font-size: .82rem; }
+
+    .challenge-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+    }
+
+    .challenge-option {
+      display: flex;
+      gap: 11px;
+      align-items: flex-start;
+      padding: 13px;
+      text-align: left;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: #ffffff08;
+      cursor: pointer;
+    }
+    .challenge-option:hover { background: #ffffff14; }
+    .challenge-option.done { opacity: .6; }
+    .challenge-option.done .option-title { text-decoration: line-through; }
+    .option-icon { font-size: 1.25rem; }
+    .option-title { display: block; font-weight: 900; }
+    .option-desc { display: block; margin-top: 4px; color: var(--muted); font-size: .83rem; line-height: 1.4; }
+
+    .safety {
+      margin: 18px 2px 0;
+      padding: 14px 16px;
+      color: var(--muted);
+      border-left: 3px solid var(--lime);
+      border-radius: 0 10px 10px 0;
+      background: #ffffff08;
+      font-size: .87rem;
+      line-height: 1.55;
+    }
+    .safety strong { color: var(--ink); }
+
+    footer { padding: 20px 8px 0; color: #c1adc9; text-align: center; font-size: .78rem; }
+
+    @media (max-width: 520px) {
+      .wrap { padding: 22px 13px 36px; }
+      .progress-row { font-size: .8rem; }
+      .actions .btn { flex: 1 1 42%; }
+      .list-panel { padding: 17px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <div class="eyebrow">The 2000s called ✨</div>
+      <h1>Britney’s<br>Pop Crawl</h1>
+      <p class="subtitle">A little sparkle, a little nostalgia, and challenges you can skip whenever you like.</p>
+    </header>
+
+    <section class="panel game" aria-label="Challenge game">
+      <div class="progress-row">
+        <span id="progressText">0 of 10 completed</span>
+        <span id="remainingText">10 to go</span>
+      </div>
+      <div class="progress-track" role="progressbar" aria-label="Challenges completed" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <article class="challenge" aria-live="polite">
+        <div class="challenge-icon" id="challengeIcon">💿</div>
+        <div class="challenge-tag" id="challengeTag">Ready when you are</div>
+        <h2 id="challengeTitle">Pick a challenge</h2>
+        <p id="challengeDescription">Tap “Surprise me” for a random challenge, or choose one from the list below.</p>
+        <div class="photo-area" id="photoArea" hidden>
+          <label class="btn" for="photoInput">📸 Add a photo</label>
+          <input id="photoInput" type="file" accept="image/*" capture="environment" hidden>
+          <img id="photoPreview" alt="Your selected photo preview" hidden>
+        </div>
+      </article>
+
+      <div class="actions">
+        <button class="btn primary" id="drawButton" type="button">🎲 Surprise me</button>
+        <button class="btn secondary" id="completeButton" type="button" disabled>✓ Complete</button>
+        <button class="btn" id="skipButton" type="button" disabled>Skip for now</button>
+        <button class="btn" id="resetButton" type="button">↻ Start over</button>
+      </div>
+      <p class="message" id="message" role="status"></p>
+    </section>
+
+    <section class="panel list-panel" aria-label="All challenges">
+      <div class="list-heading">
+        <h2>Challenge deck</h2>
+        <span>Tap any card to pick it</span>
+      </div>
+      <div class="challenge-list" id="challengeList"></div>
+    </section>
+
+    <aside class="safety">
+      <strong>Good vibes only:</strong> Every challenge is optional. Choose a drink you actually want—alcoholic or nonalcoholic—and skip anything that feels awkward. Ask before photographing anyone; don’t approach or touch an unfamiliar cat. Stick with your group and look out for one another.
+    </aside>
+    <footer>Your progress is saved only in this browser. Photo previews are not uploaded.</footer>
+  </main>
+
+  <script>
+    const challenges = [
+      {
+        id: "circus",
+        icon: "🎪",
+        tag: "Photo · Ask first",
+        title: "Circus",
+        description: "Take a selfie with a cat, big or small—only if the cat’s person is happy with it. Never approach or touch an unfamiliar cat."
+      },
+      {
+        id: "britney",
+        icon: "🎤",
+        tag: "Social · Keep it friendly",
+        title: "It’s Britney, Bitch",
+        description: "If someone seems open to a chat, introduce yourself as Britney. Respect a no or a short conversation."
+      },
+      {
+        id: "oops",
+        icon: "🥤",
+        tag: "Drink · Your choice",
+        title: "Hit Me Baby One More Time",
+        description: "If you’re comfortable, order the same kind of drink as the person in front of you. Choose your own drink, including a nonalcoholic option."
+      },
+      {
+        id: "lucky",
+        icon: "💖",
+        tag: "Drink · Your choice",
+        title: "Lucky",
+        description: "Order a pink drink—cocktail, mocktail, soda, or anything else you’d enjoy."
+      },
+      {
+        id: "pop-princess",
+        icon: "👑",
+        tag: "Style · With a friend",
+        title: "Pop Princess",
+        description: "Borrow or swap an accessory with a friend for one stop. Make sure they’re happy to lend it."
+      },
+      {
+        id: "toxic-twist",
+        icon: "💙",
+        tag: "Drink · Your choice",
+        title: "Toxic Twist",
+        description: "Order a blue or green drink—alcoholic or nonalcoholic, whichever you prefer."
+      },
+      {
+        id: "paparazzi",
+        icon: "📸",
+        tag: "Photo · Ask first",
+        title: "Paparazzi",
+        description: "Take a photo with an exaggerated paparazzi pose. Keep other people out of the picture unless they agree."
+      },
+      {
+        id: "early-2000s",
+        icon: "🦋",
+        tag: "Style spot",
+        title: "Early 2000s",
+        description: "Wear or find an item featuring denim, rhinestones, or butterfly motifs."
+      },
+      {
+        id: "stronger",
+        icon: "💪",
+        tag: "Silly · Be safe",
+        title: "Stronger",
+        description: "Hold a pose for at least 10 seconds. Choose a comfortable, safe pose and a spot that isn’t in anyone’s way."
+      },
+      {
+        id: "choose-wrong",
+        icon: "🎲",
+        tag: "Drink · You have the final say",
+        title: "Oops!… You Chose Wrong",
+        description: "Let a group member suggest your next drink. You always choose what you actually want—alcoholic or nonalcoholic—and can say no."
+      }
+    ];
+
+    const storageKey = "britneys-pop-crawl-v1";
+    const $ = (id) => document.getElementById(id);
+    let state = loadState();
+    let currentId = null;
+    let photoUrl = null;
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey));
+        return {
+          completed: Array.isArray(saved?.completed) ? saved.completed : [],
+          skipped: Array.isArray(saved?.skipped) ? saved.skipped : []
+        };
+      } catch {
+        return { completed: [], skipped: [] };
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(state));
+      } catch {
+        $("message").textContent = "Progress couldn’t be saved in this browser.";
+      }
+    }
+
+    function updateProgress() {
+      const total = challenges.length;
+      const count = state.completed.length;
+      $("progressText").textContent = `${count} of ${total} completed`;
+      $("remainingText").textContent = `${total - count} to go`;
+      $("progressFill").style.width = `${(count / total) * 100}%`;
+      document.querySelector('[role="progressbar"]').setAttribute("aria-valuenow", count);
+      renderList();
+
+      if (count === total) {
+        $("challengeTag").textContent = "You did it ✨";
+        $("challengeTitle").textContent = "Pop-crawl legend!";
+        $("challengeDescription").textContent = "All challenges completed. Celebrate however you like—and get home safely.";
+        $("challengeIcon").textContent = "🌟";
+        currentId = null;
+        setActionState();
+      }
+    }
+
+    function renderList() {
+      $("challengeList").replaceChildren();
+      for (const challenge of challenges) {
+        const done = state.completed.includes(challenge.id);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = `challenge-option${done ? " done" : ""}`;
+        button.setAttribute("aria-pressed", String(currentId === challenge.id));
+        button.innerHTML = `<span class="option-icon" aria-hidden="true">${challenge.icon}</span>
+          <span><span class="option-title">${escapeHtml(challenge.title)}${done ? " ✓" : ""}</span>
+          <span class="option-desc">${escapeHtml(challenge.description)}</span></span>`;
+        button.disabled = done;
+        button.addEventListener("click", () => selectChallenge(challenge.id));
+        $("challengeList").append(button);
+      }
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+      })[char]);
+    }
+
+    function selectChallenge(id) {
+      const challenge = challenges.find((item) => item.id === id);
+      if (!challenge || state.completed.includes(id)) return;
+      currentId = id;
+      $("challengeIcon").textContent = challenge.icon;
+      $("challengeTag").textContent = challenge.tag;
+      $("challengeTitle").textContent = challenge.title;
+      $("challengeDescription").textContent = challenge.description;
+      $("message").textContent = "";
+      $("photoArea").hidden = !["circus", "paparazzi"].includes(id);
+      $("photoInput").value = "";
+      clearPhoto();
+      setActionState();
+      renderList();
+    }
+
+    function drawChallenge() {
+      const available = challenges.filter((challenge) =>
+        !state.completed.includes(challenge.id) &&
+        !state.skipped.includes(challenge.id) &&
+        challenge.id !== currentId
+      );
+
+      if (!available.length && state.skipped.length) {
+        state.skipped = [];
+        saveState();
+        return drawChallenge();
+      }
+
+      if (!available.length) {
+        const lastAvailable = challenges.find((challenge) =>
+          !state.completed.includes(challenge.id) && challenge.id !== currentId
+        );
+        if (lastAvailable) return selectChallenge(lastAvailable.id);
+        $("message").textContent = "That was the last one—complete it or start over!";
+        return;
+      }
+
+      selectChallenge(available[Math.floor(Math.random() * available.length)].id);
+    }
+
+    function setActionState() {
+      const active = Boolean(currentId);
+      $("completeButton").disabled = !active;
+      $("skipButton").disabled = !active;
+      $("drawButton").disabled = state.completed.length === challenges.length;
+    }
+
+    function clearPhoto() {
+      if (photoUrl) URL.revokeObjectURL(photoUrl);
+      photoUrl = null;
+      $("photoPreview").removeAttribute("src");
+      $("photoPreview").hidden = true;
+    }
+
+    $("photoInput").addEventListener("change", (event) => {
+      const file = event.target.files?.[0];
+      if (!file || !file.type.startsWith("image/")) return;
+      clearPhoto();
+      photoUrl = URL.createObjectURL(file);
+      $("photoPreview").src = photoUrl;
+      $("photoPreview").hidden = false;
+    });
+
+    $("drawButton").addEventListener("click", drawChallenge);
+
+    $("completeButton").addEventListener("click", () => {
+      if (!currentId) return;
+      if (!state.completed.includes(currentId)) state.completed.push(currentId);
+      state.skipped = state.skipped.filter((id) => id !== currentId);
+      currentId = null;
+      clearPhoto();
+      $("photoArea").hidden = true;
+      saveState();
+      $("message").textContent = "Challenge complete! Pick another whenever you’re ready.";
+      $("challengeIcon").textContent = "✨";
+      $("challengeTag").textContent = "Nicely done";
+      $("challengeTitle").textContent = "Challenge complete!";
+      $("challengeDescription").textContent = "Take a breather, get some water, or choose your next challenge.";
+      updateProgress();
+      setActionState();
+    });
+
+    $("skipButton").addEventListener("click", () => {
+      if (!currentId) return;
+      if (!state.skipped.includes(currentId)) state.skipped.push(currentId);
+      currentId = null;
+      clearPhoto();
+      $("photoArea").hidden = true;
+      $("message").textContent = "Skipped for now. No pressure—choose another when you like.";
+      $("challengeIcon").textContent = "💿";
+      $("challengeTag").textContent = "Your night, your rules";
+      $("challengeTitle").textContent = "Challenge skipped";
+      $("challengeDescription").textContent = "Tap “Surprise me” or pick a card from the deck.";
+      saveState();
+      setActionState();
+      renderList();
+    });
+
+    $("resetButton").addEventListener("click", () => {
+      if (state.completed.length && !confirm("Start over and clear your completed challenges?")) return;
+      state = { completed: [], skipped: [] };
+      currentId = null;
+      clearPhoto();
+      $("photoArea").hidden = true;
+      saveState();
+      $("message").textContent = "Fresh start! Pick your first challenge.";
+      $("challengeIcon").textContent = "💿";
+      $("challengeTag").textContent = "Ready when you are";
+      $("challengeTitle").textContent = "Pick a challenge";
+      $("challengeDescription").textContent = "Tap “Surprise me” for a random challenge, or choose one from the list below.";
+      updateProgress();
+      setActionState();
+    });
+
+    updateProgress();
+    setActionState();
+  </script>
+</body>
+</html>
